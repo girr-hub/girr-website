@@ -14,31 +14,31 @@
 .layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(32px,5vw,72px);align-items:start}
 @media (max-width:860px){.layout{grid-template-columns:1fr}}
 .jobbox{border-top:2px solid var(--k);padding-top:18px;position:sticky;top:88px}
-.jobbox h2{font-size:24px;margin-top:10px}
-.jobbox p{color:var(--muted);margin-top:8px;font-size:15px}
-.jobbox ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:14px;color:var(--muted)}
+.jobbox h2{font-size:calc(24px + 3px);margin-top:10px}
+.jobbox p{color:var(--muted);margin-top:8px;font-size:calc(15px + 3px)}
+.jobbox ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:calc(14px + 3px);color:var(--muted)}
 .jobbox li{padding-left:18px;position:relative}
 .jobbox li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--navy)}
 @media (max-width:860px){.jobbox{position:static}}
 form{display:grid;gap:18px;border:1px solid var(--line);border-top:6px solid var(--navy);padding:clamp(22px,3.4vw,40px)}
-form h3{font-size:22px}
+form h3{font-size:calc(22px + 3px)}
 .file{border:1.5px dashed #CFCFCF;padding:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;cursor:pointer}
 .file:hover{border-color:var(--k)}
 .file input{position:absolute;opacity:0;width:1px;height:1px}
-.file b{font-size:14px}
-.file span{font-size:13px;color:var(--muted)}
-.consent{border:1px solid var(--line);background:var(--soft);padding:16px;font-size:13px;color:var(--muted)}
+.file b{font-size:calc(14px + 3px)}
+.file span{font-size:calc(13px + 3px);color:var(--muted)}
+.consent{border:1px solid var(--line);background:var(--soft);padding:16px;font-size:calc(13px + 3px);color:var(--muted)}
 .consent table{width:100%;border-collapse:collapse;margin:10px 0}
 .consent th,.consent td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top;background:#fff}
 .consent th{width:28%;color:var(--k);font-weight:600}
-.agree{display:flex;gap:10px;align-items:flex-start;font-size:14px;font-weight:600}
+.agree{display:flex;gap:10px;align-items:flex-start;font-size:calc(14px + 3px);font-weight:600}
 .agree input{margin-top:4px;accent-color:var(--navy);width:18px;height:18px}
 .done{border:1px solid var(--line);border-top:6px solid var(--navy);padding:40px 28px;text-align:center}
-.done h3{font-size:24px;margin-top:16px}
+.done h3{font-size:calc(24px + 3px);margin-top:16px}
 .done p{color:var(--muted);margin-top:10px}
 .done .ring{width:64px;height:64px;margin:0 auto;border-radius:50%;background:var(--navy);box-shadow:0 0 0 10px var(--navy-a),0 0 0 22px rgba(30,63,174,.08)}
 .closed{border:1px dashed #CFCFCF;padding:40px 24px;text-align:center;color:var(--muted)}
-.closed b{display:block;color:var(--k);font-size:18px;margin-bottom:6px}
+.closed b{display:block;color:var(--k);font-size:calc(18px + 3px);margin-bottom:6px}
 </style>
 </head>
 <body>

@@ -13,44 +13,44 @@
 <style>
 body{background:var(--soft)}
 .auth{max-width:420px;margin:clamp(40px,10vh,100px) auto;background:#fff;border:1px solid var(--line);border-top:6px solid var(--navy);padding:clamp(24px,4vw,40px);display:grid;gap:16px}
-.auth h1{font-size:24px}
-.auth p.sub{color:var(--muted);font-size:14px}
-.linkbtn{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--muted);text-decoration:underline;cursor:pointer;justify-self:start}
+.auth h1{font-size:calc(24px + 3px)}
+.auth p.sub{color:var(--muted);font-size:calc(14px + 3px)}
+.linkbtn{background:none;border:0;padding:0;font:inherit;font-size:calc(13px + 3px);color:var(--muted);text-decoration:underline;cursor:pointer;justify-self:start}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:24px}
-.bar h1{font-size:26px}
-.who{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bar h1{font-size:calc(26px + 3px)}
+.who{font-size:calc(13px + 3px);color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .tabs{display:flex;gap:0;border-bottom:2px solid var(--k);margin-bottom:24px}
-.tabs button{font:inherit;font-weight:600;font-size:15px;padding:12px 20px;border:0;background:transparent;cursor:pointer;color:var(--muted)}
+.tabs button{font:inherit;font-weight:600;font-size:calc(15px + 3px);padding:12px 20px;border:0;background:transparent;cursor:pointer;color:var(--muted)}
 .tabs button.on{background:var(--k);color:#fff}
 .panel{background:#fff;border:1px solid var(--line);padding:clamp(16px,2.4vw,28px)}
 .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:18px}
 .filters .field{min-width:160px}
 .tbl{overflow-x:auto}
-table.list{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
-table.list th{text-align:left;font-weight:600;color:var(--muted);font-size:13px;padding:10px;border-bottom:2px solid var(--k)}
+table.list{width:100%;border-collapse:collapse;font-size:calc(14px + 3px);min-width:640px}
+table.list th{text-align:left;font-weight:600;color:var(--muted);font-size:calc(13px + 3px);padding:10px;border-bottom:2px solid var(--k)}
 table.list td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
 table.list tr.row{cursor:pointer}
 table.list tr.row:hover td{background:#F7F8FC}
 table.list tr.sel td{background:#EEF1FB}
-.pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border:1px solid var(--line)}
+.pill{display:inline-block;font-size:calc(12px + 3px);font-weight:600;padding:3px 10px;border:1px solid var(--line)}
 .pill.s-접수{background:var(--navy);color:#fff;border-color:var(--navy)}
 .pill.s-합격{background:var(--k);color:#fff;border-color:var(--k)}
 .pill.s-불합격{color:var(--muted)}
 .grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start}
 @media (max-width:980px){.grid2{grid-template-columns:1fr}}
 .detail{border:1px solid var(--line);border-top:4px solid var(--navy);padding:20px;display:grid;gap:14px;background:#fff;position:sticky;top:84px}
-.detail h3{font-size:20px}
-.detail dl{margin:0;display:grid;grid-template-columns:80px 1fr;gap:8px 12px;font-size:14px}
+.detail h3{font-size:calc(20px + 3px)}
+.detail dl{margin:0;display:grid;grid-template-columns:80px 1fr;gap:8px 12px;font-size:calc(14px + 3px)}
 .detail dt{color:var(--muted)}
 .detail dd{margin:0;overflow-wrap:anywhere}
-.detail .msgbox{white-space:pre-wrap;font-size:14px;background:var(--soft);padding:12px;max-height:240px;overflow:auto}
+.detail .msgbox{white-space:pre-wrap;font-size:calc(14px + 3px);background:var(--soft);padding:12px;max-height:240px;overflow:auto}
 .detail .acts{display:flex;gap:8px;flex-wrap:wrap}
-.confirm{border:1px solid var(--k);padding:12px;font-size:14px;display:grid;gap:10px}
-.empty{color:var(--muted);text-align:center;padding:36px 12px;font-size:14px}
+.confirm{border:1px solid var(--k);padding:12px;font-size:calc(14px + 3px);display:grid;gap:10px}
+.empty{color:var(--muted);text-align:center;padding:36px 12px;font-size:calc(14px + 3px)}
 .jobform{display:grid;gap:14px;border:1px solid var(--line);padding:20px;margin-bottom:20px;background:#fff}
-.switch{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:calc(14px + 3px);font-weight:600}
 .switch input{width:18px;height:18px;accent-color:var(--navy)}
-.note{font-size:13px;color:var(--muted);margin-top:14px}
+.note{font-size:calc(13px + 3px);color:var(--muted);margin-top:14px}
 </style>
 </head>
 <body>
@@ -112,12 +112,12 @@ table.list tr.sel td{background:#EEF1FB}
     </section>
 
     <section id="tab-jobs" class="panel" hidden>
-      <div class="bar" style="margin-bottom:16px"><h2 style="font-size:20px">공고 목록</h2><button class="btn point sm" type="button" id="newJob">+ 새 공고</button></div>
+      <div class="bar" style="margin-bottom:16px"><h2 style="font-size:calc(20px + 3px)">공고 목록</h2><button class="btn point sm" type="button" id="newJob">+ 새 공고</button></div>
       <div id="jobFormBox"></div>
       <div class="tbl"><table class="list"><thead><tr><th>공고명</th><th>형태</th><th>마감</th><th>상태</th><th></th></tr></thead><tbody id="jobRows"></tbody></table></div>
     </section>
     <section id="tab-bro" class="panel" hidden>
-      <div class="bar" style="margin-bottom:16px"><h2 style="font-size:20px">회사소개서 다운로드 신청 <span id="broCnt" style="color:#8a8a8a;font-weight:400;font-size:15px"></span></h2>
+      <div class="bar" style="margin-bottom:16px"><h2 style="font-size:calc(20px + 3px)">회사소개서 다운로드 신청 <span id="broCnt" style="color:#8a8a8a;font-weight:400;font-size:calc(15px + 3px)"></span></h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn line sm" type="button" id="broReload">새로고침</button><button class="btn line sm" type="button" id="broCsv">CSV 저장</button><button class="btn line sm" type="button" id="broPurge">1년 지난 기록 정리</button></div></div>
       <div id="broBox"></div>
       <div class="tbl"><table class="list"><thead><tr><th>신청일</th><th>이메일</th><th>기관·회사</th><th>소식 수신</th><th></th></tr></thead><tbody id="broRows"></tbody></table></div>

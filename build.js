@@ -120,69 +120,69 @@ function splitSources(body) {
 const FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,900&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">';
 const CSS = `
 .ins-hero{background:var(--k);color:#fff;padding-block:clamp(56px,8vw,96px) clamp(36px,5vw,56px);position:relative;overflow:hidden}
-.ins-hero h1{font-size:clamp(32px,5vw,54px);margin-top:14px;letter-spacing:-.035em}
-.ins-hero p.lead{color:#CFCFCF;margin-top:14px;max-width:60ch;font-size:17px}
+.ins-hero h1{font-size:calc(clamp(32px,5vw,54px) + 3px);margin-top:14px;letter-spacing:-.035em}
+.ins-hero p.lead{color:#CFCFCF;margin-top:14px;max-width:60ch;font-size:calc(17px + 3px)}
 .ins-hero .eyebrow{color:#A3A3A3}
 .ins-hero .wave{position:absolute;right:-60px;bottom:-60px;width:360px;height:360px;border-radius:50%;border:1.5px solid var(--navy);box-shadow:0 0 0 36px rgba(30,63,174,.10),0 0 0 80px rgba(30,63,174,.06);pointer-events:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
-.chips a{font-size:14px;font-weight:600;padding:8px 16px;border:1px solid rgba(255,255,255,.25);color:#fff;text-decoration:none}
+.chips a{font-size:calc(14px + 3px);font-weight:600;padding:8px 16px;border:1px solid rgba(255,255,255,.25);color:#fff;text-decoration:none}
 .chips a:hover,.chips a.on{background:var(--navy);border-color:var(--navy)}
 .list{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:2px solid var(--k)}
 .card{display:flex;flex-direction:column;gap:10px;padding:28px 28px 28px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--k)}
 .card:nth-child(even){padding-left:28px;padding-right:0;border-left:1px solid var(--line)}
-.card .meta{font-size:13px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.card .meta{font-size:calc(13px + 3px);color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .card .cat{font-weight:700;color:var(--k);display:inline-flex;align-items:center;gap:6px}
 .card .cat::before{content:"";width:8px;height:8px;background:var(--navy)}
-.card h2{font-size:clamp(19px,2vw,23px);line-height:1.4}
-.card p{color:var(--muted);font-size:15px}
+.card h2{font-size:calc(clamp(19px,2vw,23px) + 3px);line-height:1.4}
+.card p{color:var(--muted);font-size:calc(15px + 3px)}
 .card:hover h2{text-decoration:underline;text-decoration-color:var(--navy);text-underline-offset:4px}
 @media (max-width:760px){.list{grid-template-columns:1fr}.card,.card:nth-child(even){padding:24px 0;border-left:0}}
 .empty{border:1px dashed #CFCFCF;padding:40px 24px;text-align:center;color:var(--muted)}
 .article{max-width:740px;margin:0 auto}
-.article .meta{font-size:14px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-.article h1{font-size:clamp(28px,4.4vw,44px);line-height:1.3;margin-top:14px}
-.article .dek{font-size:18px;color:#333;margin-top:16px}
-.crumb{font-size:13px;color:var(--muted)}
+.article .meta{font-size:calc(14px + 3px);color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.article h1{font-size:calc(clamp(28px,4.4vw,44px) + 3px);line-height:1.3;margin-top:14px}
+.article .dek{font-size:calc(18px + 3px);color:#333;margin-top:16px}
+.crumb{font-size:calc(13px + 3px);color:var(--muted)}
 .crumb a{color:var(--muted)}
 .byline{display:flex;align-items:center;gap:14px;margin-top:26px;padding:16px 0;border-block:1px solid var(--line)}
 .byline .av{width:44px;height:44px;border-radius:50%;background:var(--k);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:900;font-style:italic;flex:none;position:relative}
 .byline .av::after{content:"";position:absolute;right:-2px;bottom:-2px;width:12px;height:12px;border-radius:50%;background:var(--navy);border:2px solid #fff}
-.byline b{display:block;font-size:15px}
-.byline span{font-size:13px;color:var(--muted)}
-.toc{background:var(--soft);padding:18px 22px;margin-top:28px;font-size:14px}
+.byline b{display:block;font-size:calc(15px + 3px)}
+.byline span{font-size:calc(13px + 3px);color:var(--muted)}
+.toc{background:var(--soft);padding:18px 22px;margin-top:28px;font-size:calc(14px + 3px)}
 .toc b{display:block;margin-bottom:8px}
 .toc ol{margin:0;padding-left:20px}
 .toc a{color:var(--k)}
-.body{margin-top:32px;font-size:17px;line-height:1.85}
-.body h2{font-size:24px;margin-top:48px;padding-top:20px;border-top:2px solid var(--k)}
-.body h3{font-size:19px;margin-top:30px}
+.body{margin-top:32px;font-size:calc(17px + 3px);line-height:1.85}
+.body h2{font-size:calc(24px + 3px);margin-top:48px;padding-top:20px;border-top:2px solid var(--k)}
+.body h3{font-size:calc(19px + 3px);margin-top:30px}
 .body p,.body ul,.body ol{margin-top:16px}
 .body li{margin-top:6px}
 .body blockquote{margin:24px 0;padding:18px 22px;border-left:4px solid var(--navy);background:var(--soft);font-weight:600}
 .body strong{background:linear-gradient(transparent 62%,rgba(30,63,174,.18) 62%)}
 .body a{color:var(--k);text-decoration-color:var(--navy);text-underline-offset:3px}
 .tw{overflow-x:auto;margin-top:18px}
-.body table{width:100%;border-collapse:collapse;font-size:15px;min-width:480px}
+.body table{width:100%;border-collapse:collapse;font-size:calc(15px + 3px);min-width:480px}
 .body th,.body td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;font-variant-numeric:tabular-nums}
-.body th{border-bottom:2px solid var(--k);font-size:14px}
-sup.fn a{font-size:11px;font-weight:700;color:var(--navy);text-decoration:none;padding:0 2px}
-.sources{margin-top:48px;padding-top:20px;border-top:2px solid var(--k);font-size:14px}
-.sources h2{font-size:18px}
+.body th{border-bottom:2px solid var(--k);font-size:calc(14px + 3px)}
+sup.fn a{font-size:calc(11px + 3px);font-weight:700;color:var(--navy);text-decoration:none;padding:0 2px}
+.sources{margin-top:48px;padding-top:20px;border-top:2px solid var(--k);font-size:calc(14px + 3px)}
+.sources h2{font-size:calc(18px + 3px)}
 .sources ol{padding-left:20px;margin-top:12px}
 .sources li{margin-top:8px;color:#333;overflow-wrap:anywhere}
 .sources a{color:var(--k)}
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:28px}
-.tags span{font-size:13px;border:1px solid var(--line);padding:4px 10px}
+.tags span{font-size:calc(13px + 3px);border:1px solid var(--line);padding:4px 10px}
 .authorbox{margin-top:40px;border:1px solid var(--line);border-top:4px solid var(--navy);padding:22px;display:grid;gap:8px}
-.authorbox b{font-size:16px}
-.authorbox p{font-size:14px;color:var(--muted)}
+.authorbox b{font-size:calc(16px + 3px)}
+.authorbox p{font-size:calc(14px + 3px);color:var(--muted)}
 .cta{margin-top:28px;background:var(--k);color:#fff;padding:26px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.cta p{font-size:16px;font-weight:600}
+.cta p{font-size:calc(16px + 3px);font-weight:600}
 .related{margin-top:56px}
-.related h2{font-size:20px;margin-bottom:12px}
+.related h2{font-size:calc(20px + 3px);margin-bottom:12px}
 .related a{display:block;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--k);font-weight:600}
-.related a small{display:block;font-weight:400;color:var(--muted);font-size:13px}
-.preview{background:var(--navy);color:#fff;text-align:center;font-size:14px;font-weight:600;padding:10px 16px}
+.related a small{display:block;font-weight:400;color:var(--muted);font-size:calc(13px + 3px)}
+.preview{background:var(--navy);color:#fff;text-align:center;font-size:calc(14px + 3px);font-weight:600;padding:10px 16px}
 `;
 function page({ title, description, canonical, body, jsonld = [], ogType = 'website', extraHead = '' }) {
   return `<!doctype html>
@@ -287,7 +287,7 @@ function listPage(cat) {
   <nav class="chips" aria-label="카테고리"><a href="/insights/"${cat ? '' : ' class="on"'}>전체</a>${CATEGORIES.map(c => `<a href="/insights/category/${c.slug}/"${cat && cat.slug === c.slug ? ' class="on"' : ''}>${esc(c.name)}</a>`).join('')}</nav>
 </div></section>
 <main><div class="wrap">
-  ${list.length ? `<div class="list">${list.map(card).join('')}</div>` : '<div class="empty"><b style="display:block;color:var(--k);font-size:18px;margin-bottom:6px">곧 첫 글이 올라옵니다</b>공식 통계를 바탕으로 한 분석 글을 매일 준비하고 있습니다.</div>'}
+  ${list.length ? `<div class="list">${list.map(card).join('')}</div>` : '<div class="empty"><b style="display:block;color:var(--k);font-size:calc(18px + 3px);margin-bottom:6px">곧 첫 글이 올라옵니다</b>공식 통계를 바탕으로 한 분석 글을 매일 준비하고 있습니다.</div>'}
 </div></main>`;
   return page({
     title, description: desc, canonical: url, body,

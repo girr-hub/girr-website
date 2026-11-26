@@ -14,23 +14,23 @@
 .jobs{display:grid;gap:16px}
 .job{border:1px solid var(--line);border-top:2px solid var(--k);padding:clamp(20px,3vw,30px);display:grid;gap:14px;position:relative}
 .job .tags{display:flex;flex-wrap:wrap;gap:6px}
-.job .tag{font-size:12px;font-weight:600;padding:4px 10px;border:1px solid var(--line)}
+.job .tag{font-size:calc(12px + 3px);font-weight:600;padding:4px 10px;border:1px solid var(--line)}
 .job .tag.open{background:var(--navy);border-color:var(--navy);color:#fff}
-.job h2{font-size:clamp(20px,2.4vw,26px)}
+.job h2{font-size:calc(clamp(20px,2.4vw,26px) + 3px)}
 .job .summary{color:var(--muted)}
-.job details summary{cursor:pointer;font-weight:600;font-size:14px;list-style:none;display:inline-flex;align-items:center;gap:8px}
+.job details summary{cursor:pointer;font-weight:600;font-size:calc(14px + 3px);list-style:none;display:inline-flex;align-items:center;gap:8px}
 .job details summary::-webkit-details-marker{display:none}
-.job details summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border:1px solid var(--k);font-size:14px;line-height:1}
+.job details summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border:1px solid var(--k);font-size:calc(14px + 3px);line-height:1}
 .job details[open] summary::before{content:"−"}
-.job .desc{white-space:pre-wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:15px}
+.job .desc{white-space:pre-wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:calc(15px + 3px)}
 .job .foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
-.job .deadline{font-size:14px;color:var(--muted)}
+.job .deadline{font-size:calc(14px + 3px);color:var(--muted)}
 .state{border:1px dashed #CFCFCF;padding:40px 24px;text-align:center;color:var(--muted)}
-.state b{display:block;color:var(--k);font-size:18px;margin-bottom:6px}
+.state b{display:block;color:var(--k);font-size:calc(18px + 3px);margin-bottom:6px}
 .skeleton{height:150px;background:linear-gradient(90deg,#F2F2F2,#FAFAFA,#F2F2F2);background-size:200% 100%;animation:sh 1.2s infinite}
 @keyframes sh{to{background-position:-200% 0}}
 .process{display:flex;margin-top:48px;border-top:1px solid var(--line);padding-top:28px;gap:0}
-.process span{flex:1;position:relative;padding-top:30px;font-size:14px;font-weight:600;min-width:0}
+.process span{flex:1;position:relative;padding-top:30px;font-size:calc(14px + 3px);font-weight:600;min-width:0}
 .process span::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:var(--line)}
 .process span::after{content:"";position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:var(--navy)}
 .process span:last-child::before{display:none}
