@@ -277,7 +277,7 @@ for (const p of posts) {
 function listPage(cat) {
   const list = cat ? posts.filter(p => p.meta.category === cat.slug) : posts;
   const url = cat ? `${SITE}/insights/category/${cat.slug}/` : `${SITE}/insights/`;
-  const title = cat ? `${cat.name} 인사이트 | 기르 GIRR` : '외국인 인사이트 · 통계, 유학생, 창업, 비자 | 기르 GIRR';
+  const title = cat ? `${cat.name} 인사이트 | 기르 GIRR` : '외국인 인사이트 · 행사, 통계, 유학생, 창업, 비자 | 기르 GIRR';
   const desc = cat ? cat.desc : '외국인 통계, 외국인 유학생, 외국인 창업, 비자, 외국인 관광 데이터를 기르 대표 소피아(이미현)가 공식 통계와 현장 경험으로 분석합니다.';
   const body = `
 <section class="ins-hero"><span class="wave" aria-hidden="true"></span><div class="wrap">
@@ -301,7 +301,7 @@ for (const c of CATEGORIES) write(`insights/category/${c.slug}/index.html`, list
 const rfc = d => new Date(d + 'T22:00:00+09:00').toUTCString();
 write('insights/feed.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
-<title>기르 인사이트</title><link>${SITE}/insights/</link><description>외국인 통계·유학생·창업·비자·관광 분석</description><language>ko</language>
+<title>기르 인사이트</title><link>${SITE}/insights/</link><description>외국인 행사·통계·유학생·창업·비자·관광 분석</description><language>ko</language>
 <atom:link href="${SITE}/insights/feed.xml" rel="self" type="application/rss+xml"/>
 ${posts.slice(0, 30).map(p => `<item><title>${esc(p.meta.title)}</title><link>${SITE}/insights/${p.meta.slug}/</link><guid isPermaLink="true">${SITE}/insights/${p.meta.slug}/</guid><pubDate>${rfc(p.meta.date)}</pubDate><description>${esc(p.meta.description)}</description><category>${esc(CATEGORIES.find(c => c.slug === p.meta.category).name)}</category></item>`).join('\n')}
 </channel></rss>`);
