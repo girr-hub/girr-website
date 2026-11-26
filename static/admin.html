@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>채용 관리자 | 기르 GIRR</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,900&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="sub.css">
+<style>
+body{background:var(--soft)}
+.auth{max-width:420px;margin:clamp(40px,10vh,100px) auto;background:#fff;border:1px solid var(--line);border-top:6px solid var(--navy);padding:clamp(24px,4vw,40px);display:grid;gap:16px}
+.auth h1{font-size:24px}
+.auth p.sub{color:var(--muted);font-size:14px}
+.linkbtn{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--muted);text-decoration:underline;cursor:pointer;justify-self:start}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.bar h1{font-size:26px}
+.who{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--k);margin-bottom:24px}
+.tabs button{font:inherit;font-weight:600;font-size:15px;padding:12px 20px;border:0;background:transparent;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:var(--k);color:#fff}
+.panel{background:#fff;border:1px solid var(--line);padding:clamp(16px,2.4vw,28px)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:18px}
+.filters .field{min-width:160px}
+.tbl{overflow-x:auto}
+table.list{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+table.list th{text-align:left;font-weight:600;color:var(--muted);font-size:13px;padding:10px;border-bottom:2px solid var(--k)}
+table.list td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.list tr.row{cursor:pointer}
+table.list tr.row:hover td{background:#F7F8FC}
+table.list tr.sel td{background:#EEF1FB}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border:1px solid var(--line)}
+.pill.s-접수{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pill.s-합격{background:var(--k);color:#fff;border-color:var(--k)}
+.pill.s-불합격{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start}
+@media (max-width:980px){.grid2{grid-template-columns:1fr}}
+.detail{border:1px solid var(--line);border-top:4px solid var(--navy);padding:20px;display:grid;gap:14px;background:#fff;position:sticky;top:84px}
+.detail h3{font-size:20px}
+.detail dl{margin:0;display:grid;grid-template-columns:80px 1fr;gap:8px 12px;font-size:14px}
+.detail dt{color:var(--muted)}
+.detail dd{margin:0;overflow-wrap:anywhere}
+.detail .msgbox{white-space:pre-wrap;font-size:14px;background:var(--soft);padding:12px;max-height:240px;overflow:auto}
+.detail .acts{display:flex;gap:8px;flex-wrap:wrap}
+.confirm{border:1px solid var(--k);padding:12px;font-size:14px;display:grid;gap:10px}
+.empty{color:var(--muted);text-align:center;padding:36px 12px;font-size:14px}
+.jobform{display:grid;gap:14px;border:1px solid var(--line);padding:20px;margin-bottom:20px;background:#fff}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.switch input{width:18px;height:18px;accent-color:var(--navy)}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap"><a class="logo" href="/">Girr<small>채용 관리자</small></a><span class="who" id="who" style="color:#A3A3A3"></span></div></header>
+
+<main style="padding-block:0">
+  <!-- 로그인 -->
+  <div class="wrap" id="loginView" hidden>
+    <form class="auth" id="loginForm" novalidate>
+      <p class="eyebrow">Admin</p>
+      <h1>관리자 로그인</h1>
+      <p class="sub">홈페이지 관리자 계정으로만 접속할 수 있습니다. 30분 동안 사용하지 않으면 자동으로 로그아웃됩니다.</p>
+      <div class="field"><label for="lEmail">이메일</label><input type="email" id="lEmail" autocomplete="username" required></div>
+      <div class="field"><label for="lPw">비밀번호</label><input type="password" id="lPw" autocomplete="current-password" required></div>
+      <button class="btn" type="submit" id="lBtn">로그인</button>
+      <button class="linkbtn" type="button" id="forgot">비밀번호를 잊으셨나요?</button>
+      <p class="msg" id="lMsg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <!-- 비밀번호 설정 (초대/재설정 링크로 들어온 경우) -->
+  <div class="wrap" id="pwView" hidden>
+    <form class="auth" id="pwForm" novalidate>
+      <p class="eyebrow">Admin</p>
+      <h1>비밀번호 설정</h1>
+      <p class="sub">12자 이상, 영문·숫자·특수문자를 섞어 주세요. 이 비밀번호로 채용 관리자 페이지에 들어갑니다.</p>
+      <div class="field"><label for="pw1">새 비밀번호</label><input type="password" id="pw1" autocomplete="new-password" minlength="12" required></div>
+      <div class="field"><label for="pw2">새 비밀번호 확인</label><input type="password" id="pw2" autocomplete="new-password" minlength="12" required></div>
+      <button class="btn" type="submit">비밀번호 저장</button>
+      <p class="msg" id="pwMsg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <!-- 관리 화면 -->
+  <div class="wrap" id="appView" hidden style="padding-block:36px 64px">
+    <div class="bar">
+      <h1>채용 관리</h1>
+      <div class="who"><span id="adminEmail"></span><button class="btn line sm" id="logout" type="button">로그아웃</button></div>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="on" data-tab="apps" role="tab" aria-selected="true">지원자</button>
+      <button type="button" data-tab="jobs" role="tab" aria-selected="false">공고 관리</button>
+    </div>
+
+    <section id="tab-apps" class="panel">
+      <div class="filters">
+        <div class="field"><label for="fJob">공고</label><select id="fJob"><option value="">전체 공고</option></select></div>
+        <div class="field"><label for="fStatus">상태</label><select id="fStatus"><option value="">전체</option><option>접수</option><option>검토중</option><option>면접</option><option>합격</option><option>불합격</option></select></div>
+        <button class="btn line sm" type="button" id="reload">새로고침</button>
+        <button class="btn line sm" type="button" id="purgeBtn" style="margin-left:auto">보관기간 지난 지원서 정리</button>
+      </div>
+      <div id="purgeBox"></div>
+      <div class="grid2">
+        <div class="tbl"><table class="list"><thead><tr><th>접수일</th><th>공고</th><th>이름</th><th>상태</th></tr></thead><tbody id="appRows"></tbody></table></div>
+        <div id="detail"><div class="detail"><p class="empty" style="padding:20px 0">왼쪽 목록에서 지원자를 선택하세요.</p></div></div>
+      </div>
+      <p class="note">개인정보 보호: 이력서는 '이력서 보기'를 누를 때마다 60초 동안만 열리는 임시 링크로 제공됩니다. 내려받은 파일을 메일·메신저로 공유하지 말고, 전형이 끝나면 정리 버튼으로 파기해 주세요. 불합격·미처리 지원서는 접수 후 180일이 지나면 정리 대상이 됩니다.</p>
+    </section>
+
+    <section id="tab-jobs" class="panel" hidden>
+      <div class="bar" style="margin-bottom:16px"><h2 style="font-size:20px">공고 목록</h2><button class="btn point sm" type="button" id="newJob">+ 새 공고</button></div>
+      <div id="jobFormBox"></div>
+      <div class="tbl"><table class="list"><thead><tr><th>공고명</th><th>형태</th><th>마감</th><th>상태</th><th></th></tr></thead><tbody id="jobRows"></tbody></table></div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+  'use strict';
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function fmt(d){try{return new Date(d).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});}catch(e){return d;}}
+  function show(v){['loginView','pwView','appView'].forEach(function(id){$(id).hidden=(id!==v);});}
+
+  // 초대·재설정 링크 여부를 클라이언트가 주소를 정리하기 전에 기록
+  var linkType=(location.hash.match(/type=([a-z]+)/)||[])[1]||'';
+
+  // 세션은 탭을 닫으면 사라지도록 sessionStorage에만 보관
+  var store; try{sessionStorage.setItem('_t','1');sessionStorage.removeItem('_t');store=window.sessionStorage;}catch(e){store=undefined;}
+  var sb=supabase.createClient(window.GIRR_SUPABASE_URL,window.GIRR_SUPABASE_ANON_KEY,{auth:{storage:store,persistSession:!!store,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'girr-admin'}});
+
+  var jobs=[],apps=[],selId=null;
+
+  // 30분 무활동 시 자동 로그아웃
+  var idleT; function resetIdle(){clearTimeout(idleT);idleT=setTimeout(function(){sb.auth.signOut();},30*60*1000);}
+  ['click','keydown','pointermove','scroll'].forEach(function(ev){addEventListener(ev,resetIdle,{passive:true});});
+
+  async function enter(session){
+    if(!session){show('loginView');$('who').textContent='';return;}
+    if(linkType==='invite'||linkType==='recovery'){show('pwView');return;}
+    var r=await sb.rpc('is_admin');
+    if(r.error||r.data!==true){
+      await sb.auth.signOut();
+      show('loginView');$('lMsg').className='msg err';$('lMsg').textContent='관리자 권한이 없는 계정입니다.';return;
+    }
+    $('adminEmail').textContent=session.user.email;
+    show('appView');resetIdle();
+    await loadJobs();await loadApps();
+  }
+
+  sb.auth.onAuthStateChange(function(ev,session){
+    if(ev==='PASSWORD_RECOVERY'){linkType='recovery';show('pwView');return;}
+    if(ev==='SIGNED_OUT'){apps=[];jobs=[];selId=null;$('appRows').innerHTML='';show('loginView');return;}
+    if(ev==='INITIAL_SESSION'||ev==='SIGNED_IN'){setTimeout(function(){enter(session);},0);}
+  });
+
+  // 로그인
+  var tries=0,lockUntil=0;
+  $('loginForm').addEventListener('submit',async function(e){
+    e.preventDefault();var m=$('lMsg');m.className='msg';
+    if(Date.now()<lockUntil){m.className='msg err';m.textContent='로그인 시도가 많습니다. 1분 뒤 다시 시도해 주세요.';return;}
+    var em=$('lEmail').value.trim(),pw=$('lPw').value;
+    if(!em||!pw){m.className='msg err';m.textContent='이메일과 비밀번호를 입력해 주세요.';return;}
+    $('lBtn').disabled=true;m.textContent='확인 중…';
+    var r=await sb.auth.signInWithPassword({email:em,password:pw});
+    $('lBtn').disabled=false;$('lPw').value='';
+    if(r.error){tries++;if(tries>=5){lockUntil=Date.now()+60000;tries=0;}m.className='msg err';m.textContent='이메일 또는 비밀번호가 올바르지 않습니다.';return;}
+    m.textContent='';
+  });
+  $('forgot').addEventListener('click',async function(){
+    var m=$('lMsg'),em=$('lEmail').value.trim();
+    if(!/^\S+@\S+\.\S+$/.test(em)){m.className='msg err';m.textContent='이메일 칸에 관리자 이메일을 입력한 뒤 다시 눌러주세요.';return;}
+    await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});
+    m.className='msg ok';m.textContent='등록된 관리자 이메일이라면 비밀번호 재설정 메일이 발송됩니다.';
+  });
+
+  // 비밀번호 설정
+  $('pwForm').addEventListener('submit',async function(e){
+    e.preventDefault();var m=$('pwMsg');m.className='msg';
+    var a=$('pw1').value,b=$('pw2').value;
+    if(a.length<12||!/[A-Za-z]/.test(a)||!/[0-9]/.test(a)||!/[^A-Za-z0-9]/.test(a)){m.className='msg err';m.textContent='12자 이상, 영문·숫자·특수문자를 모두 포함해 주세요.';return;}
+    if(a!==b){m.className='msg err';m.textContent='두 비밀번호가 다릅니다.';return;}
+    var r=await sb.auth.updateUser({password:a});
+    $('pw1').value='';$('pw2').value='';
+    if(r.error){m.className='msg err';m.textContent='저장하지 못했습니다. 링크가 만료되었을 수 있으니 재설정 메일을 다시 받아주세요.';return;}
+    linkType='';history.replaceState(null,'',location.pathname);
+    var s=await sb.auth.getSession();enter(s.data.session);
+  });
+
+  $('logout').addEventListener('click',function(){sb.auth.signOut();});
+
+  // 탭
+  document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){
+    document.querySelectorAll('.tabs button').forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);});
+    $('tab-apps').hidden=b.dataset.tab!=='apps';$('tab-jobs').hidden=b.dataset.tab!=='jobs';
+  });});
+
+  // ===== 공고 =====
+  async function loadJobs(){
+    var r=await sb.from('jobs').select('*').order('sort_order').order('created_at',{ascending:false});
+    jobs=r.data||[];
+    var cur=$('fJob').value;
+    $('fJob').innerHTML='<option value="">전체 공고</option>'+jobs.map(function(j){return '<option value="'+esc(j.id)+'">'+esc(j.title)+'</option>';}).join('');
+    $('fJob').value=cur;
+    $('jobRows').innerHTML=jobs.length?jobs.map(function(j){
+      return '<tr><td><b>'+esc(j.title)+'</b></td><td>'+esc(j.employment_type||'-')+'</td><td>'+esc(j.deadline||'상시')+'</td><td><span class="pill '+(j.is_open?'s-접수':'s-불합격')+'">'+(j.is_open?'모집 중':'마감')+'</span></td>'+
+        '<td style="text-align:right;white-space:nowrap"><button class="btn line sm" data-edit="'+esc(j.id)+'">수정</button> <button class="btn line sm" data-toggle="'+esc(j.id)+'">'+(j.is_open?'마감하기':'다시 열기')+'</button></td></tr>';
+    }).join(''):'<tr><td colspan="5" class="empty">등록된 공고가 없습니다. "+ 새 공고"로 첫 공고를 올려주세요.</td></tr>';
+  }
+  function jobForm(j){
+    j=j||{};
+    $('jobFormBox').innerHTML='<form class="jobform" id="jf">'+
+      '<div class="field"><label for="jTitle" class="req">공고명</label><input type="text" id="jTitle" maxlength="120" value="'+esc(j.title)+'"></div>'+
+      '<div class="row2"><div class="field"><label for="jType">고용 형태</label><input type="text" id="jType" maxlength="40" placeholder="정규직 / 계약직 / 인턴" value="'+esc(j.employment_type)+'"></div>'+
+      '<div class="field"><label for="jLoc">근무지</label><input type="text" id="jLoc" maxlength="80" placeholder="서울 강남" value="'+esc(j.location)+'"></div></div>'+
+      '<div class="field"><label for="jSum">한 줄 소개</label><input type="text" id="jSum" maxlength="300" value="'+esc(j.summary)+'"></div>'+
+      '<div class="field"><label for="jDesc">상세 내용</label><textarea id="jDesc" maxlength="8000" style="min-height:220px" placeholder="주요 업무, 자격 요건, 우대 사항, 근무 조건, 전형 절차">'+esc(j.description)+'</textarea></div>'+
+      '<div class="row2"><div class="field"><label for="jDl">마감일 (비우면 상시 채용)</label><input type="date" id="jDl" value="'+esc(j.deadline||'')+'"></div>'+
+      '<div class="field"><label for="jOrd">표시 순서 (작을수록 위)</label><input type="number" id="jOrd" value="'+esc(j.sort_order||0)+'"></div></div>'+
+      '<label class="switch" for="jOpen"><input type="checkbox" id="jOpen"'+(j.id?(j.is_open?' checked':''):' checked')+'> 모집 중으로 공개</label>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn point" type="submit">'+(j.id?'수정 저장':'공고 등록')+'</button><button class="btn line" type="button" id="jCancel">취소</button></div>'+
+      '<p class="msg" id="jMsg" role="status"></p></form>';
+    $('jCancel').onclick=function(){$('jobFormBox').innerHTML='';};
+    $('jf').onsubmit=async function(e){
+      e.preventDefault();var m=$('jMsg');
+      var row={title:$('jTitle').value.trim(),employment_type:$('jType').value.trim()||null,location:$('jLoc').value.trim()||null,summary:$('jSum').value.trim()||null,description:$('jDesc').value.trim()||null,deadline:$('jDl').value||null,sort_order:parseInt($('jOrd').value,10)||0,is_open:$('jOpen').checked};
+      if(!row.title){m.className='msg err';m.textContent='공고명을 입력해 주세요.';return;}
+      var r=j.id?await sb.from('jobs').update(row).eq('id',j.id):await sb.from('jobs').insert(row);
+      if(r.error){m.className='msg err';m.textContent='저장하지 못했습니다: '+r.error.message;return;}
+      $('jobFormBox').innerHTML='';await loadJobs();
+    };
+    $('jTitle').focus();
+  }
+  $('newJob').onclick=function(){jobForm(null);};
+  $('jobRows').addEventListener('click',async function(e){
+    var t=e.target.closest('button');if(!t)return;
+    if(t.dataset.edit){jobForm(jobs.find(function(j){return j.id===t.dataset.edit;}));}
+    if(t.dataset.toggle){var j=jobs.find(function(x){return x.id===t.dataset.toggle;});await sb.from('jobs').update({is_open:!j.is_open}).eq('id',j.id);await loadJobs();}
+  });
+
+  // ===== 지원자 =====
+  function jobTitle(id){var j=jobs.find(function(x){return x.id===id;});return j?j.title:'(삭제된 공고)';}
+  async function loadApps(){
+    var q=sb.from('applications').select('id,job_id,name,email,phone,portfolio_url,message,resume_path,status,memo,created_at,consent_at').order('created_at',{ascending:false}).limit(500);
+    if($('fJob').value)q=q.eq('job_id',$('fJob').value);
+    if($('fStatus').value)q=q.eq('status',$('fStatus').value);
+    var r=await q;apps=r.data||[];
+    $('appRows').innerHTML=apps.length?apps.map(function(a){
+      return '<tr class="row'+(a.id===selId?' sel':'')+'" data-id="'+esc(a.id)+'" tabindex="0"><td>'+esc(fmt(a.created_at))+'</td><td>'+esc(jobTitle(a.job_id))+'</td><td><b>'+esc(a.name)+'</b></td><td><span class="pill s-'+esc(a.status)+'">'+esc(a.status)+'</span></td></tr>';
+    }).join(''):'<tr><td colspan="4" class="empty">조건에 맞는 지원서가 없습니다.</td></tr>';
+    if(selId&&!apps.some(function(a){return a.id===selId;})){selId=null;$('detail').innerHTML='<div class="detail"><p class="empty" style="padding:20px 0">왼쪽 목록에서 지원자를 선택하세요.</p></div>';}
+  }
+  $('fJob').onchange=loadApps;$('fStatus').onchange=loadApps;$('reload').onclick=function(){loadJobs().then(loadApps);};
+  function pick(id){selId=id;document.querySelectorAll('#appRows tr.row').forEach(function(tr){tr.classList.toggle('sel',tr.dataset.id===id);});renderDetail();}
+  $('appRows').addEventListener('click',function(e){var tr=e.target.closest('tr.row');if(tr)pick(tr.dataset.id);});
+  $('appRows').addEventListener('keydown',function(e){if(e.key==='Enter'){var tr=e.target.closest('tr.row');if(tr)pick(tr.dataset.id);}});
+
+  function renderDetail(){
+    var a=apps.find(function(x){return x.id===selId;});if(!a)return;
+    var pf=a.portfolio_url&&/^https?:\/\//i.test(a.portfolio_url)?'<a href="'+esc(a.portfolio_url)+'" target="_blank" rel="noopener noreferrer">'+esc(a.portfolio_url)+'</a>':'-';
+    $('detail').innerHTML='<div class="detail">'+
+      '<p class="eyebrow">'+esc(jobTitle(a.job_id))+'</p><h3>'+esc(a.name)+'</h3>'+
+      '<dl><dt>이메일</dt><dd>'+esc(a.email)+'</dd><dt>연락처</dt><dd>'+esc(a.phone||'-')+'</dd><dt>포트폴리오</dt><dd>'+pf+'</dd><dt>접수</dt><dd>'+esc(fmt(a.created_at))+'</dd><dt>동의</dt><dd>'+esc(fmt(a.consent_at))+'</dd></dl>'+
+      (a.message?'<div class="msgbox">'+esc(a.message)+'</div>':'')+
+      '<div class="acts"><button class="btn point sm" id="dResume"'+(a.resume_path?'':' disabled')+'>이력서 보기</button></div>'+
+      '<div class="field"><label for="dStatus">전형 상태</label><select id="dStatus">'+['접수','검토중','면접','합격','불합격'].map(function(s){return '<option'+(s===a.status?' selected':'')+'>'+s+'</option>';}).join('')+'</select></div>'+
+      '<div class="field"><label for="dMemo">담당자 메모 (지원자에게 보이지 않음)</label><textarea id="dMemo" maxlength="3000" style="min-height:100px">'+esc(a.memo||'')+'</textarea></div>'+
+      '<div class="acts"><button class="btn sm" id="dSave">저장</button><button class="btn danger sm" id="dDel">지원서 파기</button></div>'+
+      '<div id="dConfirm"></div><p class="msg" id="dMsg" role="status"></p></div>';
+    $('dResume').onclick=async function(){
+      var w=window.open('about:blank','_blank');
+      var r=await sb.storage.from('resumes').createSignedUrl(a.resume_path,60);
+      if(r.error||!r.data){if(w)w.close();$('dMsg').className='msg err';$('dMsg').textContent='이력서를 열지 못했습니다.';return;}
+      if(w){w.opener=null;w.location.href=r.data.signedUrl;}else{location.href=r.data.signedUrl;}
+    };
+    $('dSave').onclick=async function(){
+      var r=await sb.from('applications').update({status:$('dStatus').value,memo:$('dMemo').value.trim()||null}).eq('id',a.id);
+      $('dMsg').className=r.error?'msg err':'msg ok';$('dMsg').textContent=r.error?'저장하지 못했습니다.':'저장했습니다.';
+      if(!r.error){a.status=$('dStatus').value;a.memo=$('dMemo').value.trim()||null;loadApps();}
+    };
+    $('dDel').onclick=function(){
+      $('dConfirm').innerHTML='<div class="confirm"><span>'+esc(a.name)+'님의 지원서와 이력서 파일을 영구 삭제합니다. 되돌릴 수 없습니다.</span><div class="acts"><button class="btn sm" id="dYes">영구 삭제</button><button class="btn line sm" id="dNo">취소</button></div></div>';
+      $('dNo').onclick=function(){$('dConfirm').innerHTML='';};
+      $('dYes').onclick=async function(){
+        if(a.resume_path)await sb.storage.from('resumes').remove([a.resume_path]);
+        var r=await sb.from('applications').delete().eq('id',a.id);
+        if(r.error){$('dMsg').className='msg err';$('dMsg').textContent='삭제하지 못했습니다.';return;}
+        selId=null;$('detail').innerHTML='<div class="detail"><p class="msg ok">지원서를 파기했습니다.</p></div>';loadApps();
+      };
+    };
+  }
+
+  // 보관기간(180일) 지난 지원서 정리: 합격자 제외
+  $('purgeBtn').onclick=async function(){
+    var cutoff=new Date(Date.now()-180*864e5).toISOString();
+    var r=await sb.from('applications').select('id,resume_path').lt('created_at',cutoff).neq('status','합격');
+    var list=r.data||[];
+    if(!list.length){$('purgeBox').innerHTML='<p class="msg ok" style="margin-bottom:14px">정리할 지원서가 없습니다. 접수 후 180일이 지난 불합격·미처리 지원서가 정리 대상입니다.</p>';return;}
+    $('purgeBox').innerHTML='<div class="confirm" style="margin-bottom:14px"><span>접수 후 180일이 지난 지원서 '+list.length+'건(합격자 제외)과 이력서 파일을 영구 삭제합니다.</span><div class="acts"><button class="btn sm" id="pYes">영구 삭제</button><button class="btn line sm" id="pNo">취소</button></div></div>';
+    $('pNo').onclick=function(){$('purgeBox').innerHTML='';};
+    $('pYes').onclick=async function(){
+      var paths=list.map(function(x){return x.resume_path;}).filter(Boolean);
+      for(var i=0;i<paths.length;i+=100){await sb.storage.from('resumes').remove(paths.slice(i,i+100));}
+      var d=await sb.from('applications').delete().in('id',list.map(function(x){return x.id;}));
+      $('purgeBox').innerHTML='<p class="msg '+(d.error?'err':'ok')+'" style="margin-bottom:14px">'+(d.error?'일부를 삭제하지 못했습니다.':list.length+'건을 파기했습니다.')+'</p>';
+      loadApps();
+    };
+  };
+})();
+</script>
+</body>
+</html>

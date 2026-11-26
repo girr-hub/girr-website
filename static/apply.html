@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지원서 작성 | 기르 GIRR</title>
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,900&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="sub.css">
+<style>
+.layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(32px,5vw,72px);align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:1fr}}
+.jobbox{border-top:2px solid var(--k);padding-top:18px;position:sticky;top:88px}
+.jobbox h2{font-size:24px;margin-top:10px}
+.jobbox p{color:var(--muted);margin-top:8px;font-size:15px}
+.jobbox ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:14px;color:var(--muted)}
+.jobbox li{padding-left:18px;position:relative}
+.jobbox li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--navy)}
+@media (max-width:860px){.jobbox{position:static}}
+form{display:grid;gap:18px;border:1px solid var(--line);border-top:6px solid var(--navy);padding:clamp(22px,3.4vw,40px)}
+form h3{font-size:22px}
+.file{border:1.5px dashed #CFCFCF;padding:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;cursor:pointer}
+.file:hover{border-color:var(--k)}
+.file input{position:absolute;opacity:0;width:1px;height:1px}
+.file b{font-size:14px}
+.file span{font-size:13px;color:var(--muted)}
+.consent{border:1px solid var(--line);background:var(--soft);padding:16px;font-size:13px;color:var(--muted)}
+.consent table{width:100%;border-collapse:collapse;margin:10px 0}
+.consent th,.consent td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top;background:#fff}
+.consent th{width:28%;color:var(--k);font-weight:600}
+.agree{display:flex;gap:10px;align-items:flex-start;font-size:14px;font-weight:600}
+.agree input{margin-top:4px;accent-color:var(--navy);width:18px;height:18px}
+.done{border:1px solid var(--line);border-top:6px solid var(--navy);padding:40px 28px;text-align:center}
+.done h3{font-size:24px;margin-top:16px}
+.done p{color:var(--muted);margin-top:10px}
+.done .ring{width:64px;height:64px;margin:0 auto;border-radius:50%;background:var(--navy);box-shadow:0 0 0 10px var(--navy-a),0 0 0 22px rgba(30,63,174,.08)}
+.closed{border:1px dashed #CFCFCF;padding:40px 24px;text-align:center;color:var(--muted)}
+.closed b{display:block;color:var(--k);font-size:18px;margin-bottom:6px}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap"><a class="logo" href="/">Girr<small>기르</small></a><a class="back" href="careers.html">← 공고 목록</a></div></header>
+
+<main>
+  <div class="wrap">
+    <div id="root" class="layout">
+      <aside class="jobbox" id="jobbox"><p class="eyebrow">Apply</p><h2>공고 불러오는 중…</h2></aside>
+      <div id="formArea">
+        <form id="f" novalidate>
+          <h3>지원서 작성</h3>
+          <div class="row2">
+            <div class="field"><label for="name" class="req">이름</label><input type="text" id="name" maxlength="50" autocomplete="name" required></div>
+            <div class="field"><label for="phone" class="req">연락처</label><input type="tel" id="phone" maxlength="30" autocomplete="tel" placeholder="010-0000-0000" required></div>
+          </div>
+          <div class="field"><label for="email" class="req">이메일</label><input type="email" id="email" maxlength="200" autocomplete="email" required></div>
+          <div class="field">
+            <span class="lbl req">이력서 (PDF, 10MB 이하)</span>
+            <label class="file" for="resume"><input type="file" id="resume" accept="application/pdf,.pdf"><b id="fileName">파일 선택</b><span>주민등록번호·사진·가족관계 등 직무와 무관한 정보는 빼고 올려주세요.</span></label>
+          </div>
+          <div class="field"><label for="portfolio">포트폴리오 링크 (선택)</label><input type="url" id="portfolio" maxlength="500" placeholder="https://"></div>
+          <div class="field"><label for="message">지원 동기·자기소개 (선택)</label><textarea id="message" maxlength="3000" placeholder="기르에서 해보고 싶은 일, 가장 자신 있는 행사·프로젝트 경험을 적어주세요."></textarea><span class="hint" id="cnt">0 / 3000</span></div>
+          <div class="hp" aria-hidden="true"><label for="website">website</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
+          <div class="consent">
+            <b style="color:var(--k)">[필수] 개인정보 수집·이용 동의</b>
+            <table>
+              <tr><th>수집 항목</th><td>이름, 연락처, 이메일, 이력서, (선택) 포트폴리오 링크, 자기소개</td></tr>
+              <tr><th>수집 목적</th><td>채용 전형 진행, 결과 안내 및 지원자 본인 확인</td></tr>
+              <tr><th>보유 기간</th><td>채용 전형 종료 후 180일까지 보관 후 지체 없이 파기 (합격자는 입사 후 인사 관리 목적으로 전환)</td></tr>
+            </table>
+            지원자는 동의를 거부할 권리가 있으며, 거부할 경우 지원서 접수가 불가합니다. 자세한 내용은 <a href="privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>을 확인해 주세요.
+          </div>
+          <label class="agree" for="agree"><input type="checkbox" id="agree"> 위 개인정보 수집·이용에 동의합니다.</label>
+          <button class="btn point" type="submit" id="submitBtn">지원서 제출</button>
+          <p class="msg" id="msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer><div class="wrap"><span>© 2026 GIRR Inc.</span><a href="privacy.html">개인정보처리방침</a></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  var sb=supabase.createClient(window.GIRR_SUPABASE_URL,window.GIRR_SUPABASE_ANON_KEY,{auth:{persistSession:false}});
+  var jobId=new URLSearchParams(location.search).get('job');
+  var today=new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
+  function closed(){ $('root').innerHTML='<div class="closed" style="grid-column:1/-1"><b>지원할 수 없는 공고입니다</b>마감되었거나 존재하지 않는 공고입니다. <a href="careers.html">진행 중인 공고 보기</a></div>'; }
+  if(!jobId||!/^[0-9a-f-]{36}$/i.test(jobId)){closed();return;}
+  sb.from('jobs').select('id,title,employment_type,location,summary,deadline').eq('id',jobId).eq('is_open',true).maybeSingle().then(function(r){
+    var j=r.data;
+    if(r.error||!j||(j.deadline&&j.deadline<today)){closed();return;}
+    $('jobbox').innerHTML='<p class="eyebrow">Apply</p><h2>'+esc(j.title)+'</h2>'+(j.summary?'<p>'+esc(j.summary)+'</p>':'')+
+      '<ul>'+(j.employment_type?'<li>'+esc(j.employment_type)+'</li>':'')+(j.location?'<li>'+esc(j.location)+'</li>':'')+
+      '<li>'+(j.deadline?'마감 '+esc(j.deadline):'상시 채용')+'</li><li>제출한 지원서는 채용 담당자만 열람합니다</li></ul>';
+    document.title=j.title+' 지원 | 기르 GIRR';
+  });
+
+  $('resume').addEventListener('change',function(){var f=this.files[0];$('fileName').textContent=f?f.name+' ('+(f.size/1048576).toFixed(1)+'MB)':'파일 선택';});
+  $('message').addEventListener('input',function(){$('cnt').textContent=this.value.length+' / 3000';});
+
+  var busy=false;
+  $('f').addEventListener('submit',async function(e){
+    e.preventDefault(); if(busy)return;
+    var msg=$('msg'); msg.className='msg';
+    if($('website').value){return;}
+    var name=$('name').value.trim(),email=$('email').value.trim(),phone=$('phone').value.trim(),pf=$('portfolio').value.trim(),mtext=$('message').value.trim(),file=$('resume').files[0];
+    var miss=[];
+    if(!name)miss.push('이름');
+    if(!phone)miss.push('연락처');
+    if(!/^\S+@\S+\.\S+$/.test(email))miss.push('올바른 이메일');
+    if(!file)miss.push('이력서 파일');
+    if(pf&&!/^https?:\/\//i.test(pf))miss.push('포트폴리오 링크(https://로 시작)');
+    if(!$('agree').checked)miss.push('개인정보 수집·이용 동의');
+    if(miss.length){msg.className='msg err';msg.textContent=miss.join(', ')+' 항목을 확인해 주세요.';return;}
+    if(file.type!=='application/pdf'&&!/\.pdf$/i.test(file.name)){msg.className='msg err';msg.textContent='이력서는 PDF 파일만 올릴 수 있습니다.';return;}
+    if(file.size>10485760){msg.className='msg err';msg.textContent='이력서 파일이 10MB를 넘습니다. 용량을 줄여 다시 올려주세요.';return;}
+    busy=true;$('submitBtn').disabled=true;msg.textContent='제출 중입니다…';
+    try{
+      var path=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2))+'/resume.pdf';
+      var up=await sb.storage.from('resumes').upload(path,file,{contentType:'application/pdf',upsert:false});
+      if(up.error)throw up.error;
+      var ins=await sb.from('applications').insert({job_id:jobId,name:name,email:email,phone:phone,portfolio_url:pf||null,message:mtext||null,resume_path:path,consent_at:new Date().toISOString()});
+      if(ins.error)throw ins.error;
+      $('formArea').innerHTML='<div class="done"><div class="ring"></div><h3>지원서가 접수되었습니다</h3><p>'+esc(name)+'님, 기르에 지원해 주셔서 감사합니다.<br>서류 검토 후 입력하신 연락처로 결과를 안내드리겠습니다.</p><p style="margin-top:22px"><a class="btn line" href="careers.html">다른 공고 보기</a></p></div>';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }catch(err){
+      busy=false;$('submitBtn').disabled=false;msg.className='msg err';
+      msg.textContent='제출하지 못했습니다. 공고가 마감되었거나 네트워크 문제일 수 있습니다. 잠시 후 다시 시도해 주세요.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
