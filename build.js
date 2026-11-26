@@ -318,6 +318,6 @@ write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 ${urls.map(u => `  <url><loc>${u.loc}</loc>${u.mod ? `<lastmod>${u.mod}</lastmod>` : ''}<priority>${u.pri}</priority></url>`).join('\n')}
 </urlset>
 `);
-write('robots.txt', IS_PREVIEW ? 'User-agent: *\nDisallow: /\n' : `User-agent: *\nAllow: /\nDisallow: /admin.html\nDisallow: /apply.html\n\nSitemap: ${SITE}/sitemap.xml\n`);
+write('robots.txt', IS_PREVIEW ? 'User-agent: *\nDisallow: /\n' : `User-agent: *\nAllow: /\nDisallow: /admin.html\nDisallow: /apply.html\nDisallow: /files/\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 console.log(`빌드 완료: 글 ${posts.length}편${IS_PREVIEW ? ' (미리보기: 초안 포함)' : ''} → dist/`);

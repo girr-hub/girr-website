@@ -54,7 +54,7 @@ table.list tr.sel td{background:#EEF1FB}
 </style>
 </head>
 <body>
-<header class="nav"><div class="wrap"><a class="logo" href="/">Girr<small>채용 관리자</small></a><span class="who" id="who" style="color:#A3A3A3"></span></div></header>
+<header class="nav"><div class="wrap"><a class="logo" href="/">Girr<small>관리자</small></a><span class="who" id="who" style="color:#A3A3A3"></span></div></header>
 
 <main style="padding-block:0">
   <!-- 로그인 -->
@@ -93,6 +93,7 @@ table.list tr.sel td{background:#EEF1FB}
     <div class="tabs" role="tablist">
       <button type="button" class="on" data-tab="apps" role="tab" aria-selected="true">지원자</button>
       <button type="button" data-tab="jobs" role="tab" aria-selected="false">공고 관리</button>
+      <button type="button" data-tab="bro" role="tab" aria-selected="false">회사소개서 신청</button>
     </div>
 
     <section id="tab-apps" class="panel">
@@ -114,6 +115,13 @@ table.list tr.sel td{background:#EEF1FB}
       <div class="bar" style="margin-bottom:16px"><h2 style="font-size:20px">공고 목록</h2><button class="btn point sm" type="button" id="newJob">+ 새 공고</button></div>
       <div id="jobFormBox"></div>
       <div class="tbl"><table class="list"><thead><tr><th>공고명</th><th>형태</th><th>마감</th><th>상태</th><th></th></tr></thead><tbody id="jobRows"></tbody></table></div>
+    </section>
+    <section id="tab-bro" class="panel" hidden>
+      <div class="bar" style="margin-bottom:16px"><h2 style="font-size:20px">회사소개서 다운로드 신청 <span id="broCnt" style="color:#8a8a8a;font-weight:400;font-size:15px"></span></h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn line sm" type="button" id="broReload">새로고침</button><button class="btn line sm" type="button" id="broCsv">CSV 저장</button><button class="btn line sm" type="button" id="broPurge">1년 지난 기록 정리</button></div></div>
+      <div id="broBox"></div>
+      <div class="tbl"><table class="list"><thead><tr><th>신청일</th><th>이메일</th><th>기관·회사</th><th>소식 수신</th><th></th></tr></thead><tbody id="broRows"></tbody></table></div>
+      <p class="note">홈페이지에서 회사소개서를 내려받은 사람의 기록입니다. 소식 수신에 동의한 사람에게만 홍보 메일을 보낼 수 있습니다. 수집일로부터 1년이 지나면 정리 버튼으로 파기해 주세요.</p>
     </section>
   </div>
 </main>
@@ -198,8 +206,32 @@ table.list tr.sel td{background:#EEF1FB}
   // 탭
   document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){
     document.querySelectorAll('.tabs button').forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);});
-    $('tab-apps').hidden=b.dataset.tab!=='apps';$('tab-jobs').hidden=b.dataset.tab!=='jobs';
+    $('tab-apps').hidden=b.dataset.tab!=='apps';$('tab-jobs').hidden=b.dataset.tab!=='jobs';$('tab-bro').hidden=b.dataset.tab!=='bro';
+    if(b.dataset.tab==='bro')loadBro();
   });});
+
+  // ===== 회사소개서 신청 =====
+  var bros=[];
+  async function loadBro(){
+    var r=await sb.from('brochure_requests').select('id,email,company,marketing_opt_in,created_at').order('created_at',{ascending:false}).limit(2000);
+    if(r.error){$('broRows').innerHTML='<tr><td colspan="5" class="empty">불러오지 못했습니다.</td></tr>';return;}
+    bros=r.data||[];$('broCnt').textContent=bros.length+'건';
+    $('broRows').innerHTML=bros.length?bros.map(function(b){return '<tr><td>'+esc(fmt(b.created_at))+'</td><td><b>'+esc(b.email)+'</b></td><td>'+esc(b.company||'')+'</td><td>'+(b.marketing_opt_in?'동의':'-')+'</td><td><button class="btn danger sm" data-bdel="'+esc(b.id)+'">삭제</button></td></tr>';}).join(''):'<tr><td colspan="5" class="empty">아직 신청이 없습니다.</td></tr>';
+  }
+  $('broReload').onclick=loadBro;
+  $('broRows').addEventListener('click',async function(e){var id=e.target.dataset&&e.target.dataset.bdel;if(!id)return;
+    if(e.target.dataset.sure!=='1'){e.target.dataset.sure='1';e.target.textContent='한 번 더 누르면 삭제';return;}
+    var r=await sb.from('brochure_requests').delete().eq('id',id);if(!r.error)loadBro();});
+  $('broCsv').onclick=function(){
+    var rows=[['신청일','이메일','기관·회사','소식 수신']].concat(bros.map(function(b){return [fmt(b.created_at),b.email,b.company||'',b.marketing_opt_in?'동의':''];}));
+    var csv='\ufeff'+rows.map(function(r){return r.map(function(v){v=String(v);if(/^[=+\-@]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='회사소개서_신청_'+new Date().toISOString().slice(0,10)+'.csv';a.click();};
+  $('broPurge').onclick=async function(){
+    var cut=new Date(Date.now()-365*864e5).toISOString();var old=bros.filter(function(b){return b.created_at<cut;});
+    if(!old.length){$('broBox').innerHTML='<p class="msg ok">정리할 기록이 없습니다.</p>';return;}
+    if($('broPurge').dataset.sure!=='1'){$('broPurge').dataset.sure='1';$('broBox').innerHTML='<p class="msg err">1년 지난 기록 '+old.length+'건을 삭제합니다. 버튼을 한 번 더 누르세요.</p>';return;}
+    var r=await sb.from('brochure_requests').delete().lt('created_at',cut);$('broPurge').dataset.sure='';
+    $('broBox').innerHTML=r.error?'<p class="msg err">정리하지 못했습니다.</p>':'<p class="msg ok">'+old.length+'건을 삭제했습니다.</p>';loadBro();};
 
   // ===== 공고 =====
   async function loadJobs(){

@@ -543,6 +543,20 @@ footer{border-top:1px solid rgba(255,255,255,.12);padding-block:56px 40px;font-s
 .case.hide,.ref tr.hide{display:none}
 .rv{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 .rv.pre{transform:translateY(28px)}
+
+/* brochure */
+.bro{display:grid;grid-template-columns:1fr minmax(0,460px);gap:clamp(36px,6vw,90px);align-items:center;position:relative}
+@media (max-width:900px){.bro{grid-template-columns:1fr}}
+.bro-list{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:15px;color:var(--muted)}
+.bro-list li{padding-left:16px;position:relative}.bro-list li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:var(--navy)}
+.bro-meta{margin-top:22px;font-size:13px;color:var(--muted)}
+#bform .agree{font-size:12.5px}
+#bform .agree a{color:inherit}
+#bform .bmsg{font-size:13px;min-height:1.2em}
+#bform .bmsg.err{color:#C0262D}#bform .bmsg.ok{color:var(--navy);font-weight:600}
+#bform .btn{justify-content:center;width:100%}
+#bform .btn[disabled]{opacity:.6;cursor:wait}
+@media (max-width:600px){.bro-list{grid-template-columns:1fr}}
 </style>
 
 <script>
@@ -584,6 +598,7 @@ footer{border-top:1px solid rgba(255,255,255,.12);padding-block:56px 40px;font-s
     <div class="hero-actions">
       <a href="#contact" class="btn btn-point">행사 문의하기 →</a>
       <a href="#works" class="btn btn-line">수행 실적 보기</a>
+      <a href="#brochure" class="btn btn-line">회사소개서 받기 ↓</a>
     </div>
   </div>
   <canvas class="sine hero-sine" data-lines="7" data-amp="0.42" aria-hidden="true"></canvas>
@@ -1107,6 +1122,35 @@ footer{border-top:1px solid rgba(255,255,255,.12);padding-block:56px 40px;font-s
   </div>
 </section>
 
+<!-- BROCHURE -->
+<section class="band dark" id="brochure">
+  <div class="wrap">
+    <div class="bro">
+      <div>
+        <p class="eyebrow">Company Profile</p>
+        <h2 class="h2">기르 회사소개서를 받아보세요</h2>
+        <p class="lead">이메일을 남기면 바로 PDF를 내려받을 수 있습니다. 제안 검토나 내부 보고에 그대로 쓰실 수 있도록 정리했습니다.</p>
+        <ul class="bro-list">
+          <li>회사 개요와 숫자로 보는 기르</li><li>사업 영역과 MICE 수행 방식</li>
+          <li>주요 행사 수행 실적 10건</li><li>지역 연계 로컬 투어 성과</li>
+          <li>외국인 모객 채널과 안전 관리</li><li>파트너·팀·언론 보도</li>
+        </ul>
+        <p class="bro-meta">PDF · 12쪽 · 2026년 11월 기준</p>
+      </div>
+      <form class="card" id="bform" novalidate>
+        <h3>회사소개서 다운로드</h3>
+        <div class="field"><label for="b-email" class="req">이메일</label><input id="b-email" type="email" autocomplete="email" maxlength="200" placeholder="name@company.com" required></div>
+        <div class="field"><label for="b-org">기관·회사명</label><input id="b-org" autocomplete="organization" maxlength="100"></div>
+        <label class="agree" for="b-agree"><input type="checkbox" id="b-agree"> <span>[필수] 회사소개서 제공과 사업 문의 응대를 위한 이메일, 기관·회사명 수집·이용에 동의합니다. 수집일로부터 1년간 보관 후 파기합니다. (<a href="privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>)</span></label>
+        <label class="agree" for="b-mkt"><input type="checkbox" id="b-mkt"> <span>[선택] 기르의 행사·서비스 소식을 이메일로 받겠습니다.</span></label>
+        <div class="hp" aria-hidden="true" style="position:absolute;left:-9999px"><label for="b-web">website</label><input id="b-web" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn-point" type="submit" id="b-btn">PDF 다운로드 ↓</button>
+        <p class="bmsg" id="b-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section class="band light contact-band" id="contact">
   <svg class="rings" viewBox="0 0 400 400" aria-hidden="true">
@@ -1311,5 +1355,29 @@ footer{border-top:1px solid rgba(255,255,255,.12);padding-block:56px 40px;font-s
 })();
 </script>
 
+<script src="config.js"></script>
+<script>
+(function(){
+  var f=document.getElementById('bform');if(!f)return;
+  var PDF='/files/girr-company-profile-2026.pdf';
+  function $(i){return document.getElementById(i)}
+  function dl(){var a=document.createElement('a');a.href=PDF;a.download='기르_GIRR_회사소개서_2026.pdf';document.body.appendChild(a);a.click();a.remove();}
+  var busy=false;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();if(busy)return;
+    var m=$('b-msg');m.className='bmsg';
+    if($('b-web').value)return;
+    var email=$('b-email').value.trim(),org=$('b-org').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){m.className='bmsg err';m.textContent='이메일 주소를 확인해 주세요.';$('b-email').focus();return;}
+    if(!$('b-agree').checked){m.className='bmsg err';m.textContent='필수 항목(개인정보 수집·이용)에 동의해 주세요.';return;}
+    busy=true;$('b-btn').disabled=true;m.textContent='준비 중입니다…';
+    fetch(window.GIRR_SUPABASE_URL+'/rest/v1/brochure_requests',{method:'POST',headers:{'apikey':window.GIRR_SUPABASE_ANON_KEY,'Authorization':'Bearer '+window.GIRR_SUPABASE_ANON_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({email:email,company:org||null,marketing_opt_in:$('b-mkt').checked,consent_at:new Date().toISOString()})})
+    .then(function(r){if(!r.ok)throw new Error(r.status);dl();m.className='bmsg ok';m.innerHTML='다운로드를 시작했습니다. 시작되지 않으면 <a href="'+PDF+'" download>여기를 눌러 주세요</a>.';f.reset();})
+    .catch(function(){m.className='bmsg err';m.textContent='잠시 후 다시 시도해 주세요. 계속 안 되면 girr.official@gmail.com 으로 요청해 주세요.';})
+    .then(function(){busy=false;$('b-btn').disabled=false;});
+  });
+})();
+</script>
 </body>
 </html>
