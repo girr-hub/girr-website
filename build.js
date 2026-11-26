@@ -278,7 +278,7 @@ function listPage(cat) {
   const list = cat ? posts.filter(p => p.meta.category === cat.slug) : posts;
   const url = cat ? `${SITE}/insights/category/${cat.slug}/` : `${SITE}/insights/`;
   const title = cat ? `${cat.name} 인사이트 | 기르 GIRR` : '외국인 인사이트 · 행사, 통계, 유학생, 창업, 비자 | 기르 GIRR';
-  const desc = cat ? cat.desc : '외국인 통계, 외국인 유학생, 외국인 창업, 비자, 외국인 관광 데이터를 기르 대표 소피아(이미현)가 공식 통계와 현장 경험으로 분석합니다.';
+  const desc = cat ? cat.desc : '외국인 행사, 외국인 통계, 외국인 유학생, 외국인 창업, 비자, 외국인 관광 데이터를 기르 대표 소피아(이미현)가 공식 통계와 현장 경험으로 분석합니다.';
   const body = `
 <section class="ins-hero"><span class="wave" aria-hidden="true"></span><div class="wrap">
   <p class="eyebrow">Insights${cat ? ' · ' + esc(cat.name) : ''}</p>
