@@ -16,6 +16,7 @@ const CATEGORIES = [
   { slug: 'startup', name: '외국인 창업', desc: '외국인 창업자와 유학생 창업, 창업비자(D-8-4)와 지원 프로그램을 다룹니다' },
   { slug: 'visa', name: '비자·체류', desc: '유학·구직·취업·정주 비자 제도와 변화, 실제 체류 자격 변경 흐름을 정리합니다' },
   { slug: 'tourism', name: '외국인 관광', desc: '방한 외래관광객과 체류 외국인의 국내 여행, 지역 관광 통계를 분석합니다' },
+  { slug: 'essay', name: '소피아 노트', desc: '기르 대표 소피아가 외국인과 함께 일하고 사업하며 알게 된 것들을 1인칭으로 씁니다' },
 ];
 // 미리보기(PR) 빌드에서는 draft 도 보여주고, 실제 배포에서는 published 만 보여준다.
 // 미리보기 판별: Netlify(CONTEXT) 또는 Cloudflare Pages(CF_PAGES_BRANCH)에서 main 이 아닌 브랜치
