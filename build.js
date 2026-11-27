@@ -18,7 +18,9 @@ const CATEGORIES = [
   { slug: 'tourism', name: '외국인 관광', desc: '방한 외래관광객과 체류 외국인의 국내 여행, 지역 관광 통계를 분석합니다' },
 ];
 // 미리보기(PR) 빌드에서는 draft 도 보여주고, 실제 배포에서는 published 만 보여준다.
-const IS_PREVIEW = process.env.CONTEXT && process.env.CONTEXT !== 'production';
+// 미리보기 판별: Netlify(CONTEXT) 또는 Cloudflare Pages(CF_PAGES_BRANCH)에서 main 이 아닌 브랜치
+const IS_PREVIEW = (process.env.CONTEXT && process.env.CONTEXT !== 'production') ||
+  (process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== 'main');
 
 // ---------- 유틸 ----------
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
